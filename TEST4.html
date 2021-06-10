@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    1 패턴 <input type="radio" name="pattern" class="pattern" value="minus">
+    2 패턴 <input type="radio" name="pattern" class="pattern" value="dia">
+    3 패턴 <input type="radio" name="pattern" class="pattern" value="basic">
+    <br><br>
+
+    숫자 : <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
+    <button type="button" id="button">별 찍기!</button>
+    <div id="contents">
+
+    </div>
+    <script>
+
+        document.querySelector('#button').addEventListener('click', insertIdx);
+
+        function enterkey() {
+            if (window.event.keyCode == 13) {
+                insertIdx();
+            }
+        }
+
+        function insertIdx(){
+            document.querySelector('#contents').innerHTML = "";
+            let count = document.querySelector('#count');
+            let radio_selector = document.querySelector('input[name="pattern"]:checked');
+            if(radio_selector == null){
+                alert("라디오 버튼을 선택해주세요.");
+                return false;
+            }
+            validation(count);
+            switch(radio_selector.value){
+                case "minus": minusPattern(count); break;
+                case "dia": diaPattern(count); break;
+                case "basic": basicPattern(count); break;
+            }
+        }
+
+        function minusPattern(count){
+            let idx = '*';
+            for(i=0; i<count.value; i++){
+                for(j=0; j<count.value; j++){
+                    if(i<=j){
+                        document.querySelector('#contents').append(idx);
+                    }else{
+                        document.querySelector('#contents').append("X");
+                    }
+                }
+                let pTag = document.createElement("p");
+                document.querySelector('#contents').append(pTag);
+            }
+        }
+
+        function diaPattern(count){
+            let idx = '*';
+            let val = count.value;
+            if(val % 2 != 1){
+                alert("홀수 입력만 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+            let val_half = val / 2 - 0.5;
+            let flag = 'minus';
+            let state = 0;
+            for(i=0; i<val; i++){
+                console.log(state);
+                for(j=0; j<val; j++){
+                    if(val_half - state> j){
+                        document.querySelector('#contents').append("X");
+                    }else if (val_half + state< j){
+                        document.querySelector('#contents').append("X");
+                    }else{
+                        document.querySelector('#contents').append(idx);
+                    }
+                    if(j==val-1 && flag == 'minus'){
+                        state++;
+                    }
+                    if(j==val-1 && flag == 'plus'){
+                        state--;
+                    }
+                    if(val_half == state){
+                        flag = 'plus';
+                    }
+                }
+                
+                let pTag = document.createElement("p");
+                document.querySelector('#contents').append(pTag);
+            }
+        }
+
+        function basicPattern(count){
+            let idx = '*';
+            for(i=1; i<=count.value; i++){
+                for(j=0; j<i; j++){
+                    document.querySelector('#contents').append(idx);
+                }
+                let pTag = document.createElement("p");
+                document.querySelector('#contents').append(pTag);
+            }
+        }
+
+        function validation(count){
+            let val = count.value;
+            if(val =='' || isNaN(val)){
+                alert("숫자만 입력이 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+            if(val % 1 !== 0 || val.indexOf('.') > -1 ){
+                alert("'자연수' 만 입력이 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+            if(val < 1 || val > 100){
+                alert("1~ 100 사이 숫자만 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+        }
+
+        function validation_error(count){
+            count.value = '';
+            count.focus();
+        }
+        
+    </script>
+</body>
+</html>
