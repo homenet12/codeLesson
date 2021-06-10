@@ -16,4 +16,8 @@ Hello World 찍기
 
 <a href="https://homenet12.github.io/codeLesson/TEST2.html">https://homenet12.github.io/codeLesson/TEST2.html</a>
 
+#3
 
+동적으로 별 찍기
+
+<a href="https://homenet12.github.io/codeLesson/TEST3.html">https://homenet12.github.io/codeLesson/TEST3.html</a>
