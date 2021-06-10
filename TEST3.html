@@ -17,15 +17,20 @@
 
             document.querySelector('#contents').innerHTML = "";
             let count = document.querySelector('#count');
-            console.log(count.value);
             if(count.value =='' || !isNaN(count)){
-                count.value = 0;
+                count.value = '';
+            }
+            if(count.value < 1 || count.value > 100){
+                alert("1~ 100 사이 숫자만 가능합니다.");
+                count.value = '';
+                count.focus();
+                return false;
             }
 
             let idx = '*';
             for(i=1; i<=count.value; i++){
                 for(j=0; j<i; j++){
-                document.querySelector('#contents').append(idx);
+                    document.querySelector('#contents').append(idx);
                 }
                 let pTag = document.createElement("p");
                 document.querySelector('#contents').append(pTag);
