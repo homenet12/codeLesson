@@ -7,25 +7,26 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" id="count" style="width:30px;">
-    <button type="button" id="button">등록</button>
+    <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
+    <button type="button" id="button">별 찍기!</button>
     <div id="contents">
 
     </div>
     <script>
-        document.querySelector('#button').addEventListener('click', function(){
 
+        document.querySelector('#button').addEventListener('click', insertIdx);
+
+        function enterkey() {
+            if (window.event.keyCode == 13) {
+                insertIdx();
+            }
+        }
+
+        function insertIdx(){
             document.querySelector('#contents').innerHTML = "";
             let count = document.querySelector('#count');
-            if(count.value =='' || !isNaN(count)){
-                count.value = '';
-            }
-            if(count.value < 1 || count.value > 100){
-                alert("1~ 100 사이 숫자만 가능합니다.");
-                count.value = '';
-                count.focus();
-                return false;
-            }
+
+            validation(count);
 
             let idx = '*';
             for(i=1; i<=count.value; i++){
@@ -35,8 +36,24 @@
                 let pTag = document.createElement("p");
                 document.querySelector('#contents').append(pTag);
             }
-        })
+        }
 
+
+        
+        function validation(count){
+            if(count.value =='' || !isNaN(count)){
+                alert("숫자만 입력이 가능합니다.");
+                count.value = '';
+                count.focus();
+                return false;
+            }
+            if(count.value < 1 || count.value > 100){
+                alert("1~ 100 사이 숫자만 가능합니다.");
+                count.value = '';
+                count.focus();
+                return false;
+            }
+        }
         
     </script>
 </body>
