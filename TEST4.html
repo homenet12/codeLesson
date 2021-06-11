@@ -7,9 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    1 패턴 <input type="radio" name="pattern" class="pattern" value="minus">
-    2 패턴 <input type="radio" name="pattern" class="pattern" value="dia">
-    3 패턴 <input type="radio" name="pattern" class="pattern" value="basic">
+    ◥ 패턴 <input type="radio" name="pattern" class="pattern" value="minus">
+    ♦ 패턴 <input type="radio" name="pattern" class="pattern" value="dia">
+    ◣ 패턴 <input type="radio" name="pattern" class="pattern" value="basic">
     <br><br>
 
     숫자 : <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
@@ -18,6 +18,7 @@
 
     </div>
     <script>
+        const contents = document.querySelector('#contents');
 
         document.querySelector('#button').addEventListener('click', insertIdx);
 
@@ -28,7 +29,7 @@
         }
 
         function insertIdx(){
-            document.querySelector('#contents').innerHTML = "";
+            contents.innerHTML = "";
             let count = document.querySelector('#count');
             let radio_selector = document.querySelector('input[name="pattern"]:checked');
             if(radio_selector == null){
@@ -48,13 +49,14 @@
             for(i=0; i<count.value; i++){
                 for(j=0; j<count.value; j++){
                     if(i<=j){
-                        document.querySelector('#contents').append(idx);
+                        contents.append(idx+ " ");
                     }else{
-                        document.querySelector('#contents').append("X");
+                        console.log(space);
+                        contents.append("ㅤ");
                     }
                 }
                 let pTag = document.createElement("p");
-                document.querySelector('#contents').append(pTag);
+                contents.append(pTag);
             }
         }
 
@@ -73,11 +75,11 @@
                 console.log(state);
                 for(j=0; j<val; j++){
                     if(val_half - state> j){
-                        document.querySelector('#contents').append("X");
+                        contents.append("ㅤ");
                     }else if (val_half + state< j){
-                        document.querySelector('#contents').append("X");
+                        contents.append("ㅤ");
                     }else{
-                        document.querySelector('#contents').append(idx);
+                        contents.append(idx+" ");
                     }
                     if(j==val-1 && flag == 'minus'){
                         state++;
@@ -91,7 +93,7 @@
                 }
                 
                 let pTag = document.createElement("p");
-                document.querySelector('#contents').append(pTag);
+                contents.append(pTag);
             }
         }
 
@@ -99,10 +101,10 @@
             let idx = '*';
             for(i=1; i<=count.value; i++){
                 for(j=0; j<i; j++){
-                    document.querySelector('#contents').append(idx);
+                    contents.append(idx);
                 }
                 let pTag = document.createElement("p");
-                document.querySelector('#contents').append(pTag);
+                contents.append(pTag);
             }
         }
 
