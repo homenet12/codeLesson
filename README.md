@@ -21,3 +21,9 @@ Hello World 찍기
 동적으로 별 찍기
 
 <a href="https://homenet12.github.io/codeLesson/TEST3.html">https://homenet12.github.io/codeLesson/TEST3.html</a>
+
+#4
+
+Pattern 별 찍기
+
+<a href="https://homenet12.github.io/codeLesson/TEST4.html">https://homenet12.github.io/codeLesson/TEST4.html</a>
