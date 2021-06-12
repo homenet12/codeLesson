@@ -36,7 +36,7 @@
                 alert("라디오 버튼을 선택해주세요.");
                 return false;
             }
-            validation(count);
+            validation(count, radio_selector.value);
             switch(radio_selector.value){
                 case "minus": minusPattern(count); break;
                 case "dia": diaPattern(count); break;
@@ -62,16 +62,10 @@
         function diaPattern(count){
             let idx = '*';
             let val = count.value;
-            if(val % 2 != 1){
-                alert("홀수 입력만 가능합니다.");
-                validation_error(count);
-                return false;
-            }
             let val_half = val / 2 - 0.5;
             let flag = 'minus';
             let state = 0;
             for(i=0; i<val; i++){
-                console.log(state);
                 for(j=0; j<val; j++){
                     if(val_half - state> j){
                         contents.append("ㅤ");
@@ -107,7 +101,7 @@
             }
         }
 
-        function validation(count){
+        function validation(count, pattern){
             let val = count.value;
             if(val =='' || isNaN(val)){
                 alert("숫자만 입력이 가능합니다.");
@@ -121,6 +115,18 @@
             }
             if(val < 1 || val > 100){
                 alert("1~ 100 사이 숫자만 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+
+            if(pattern == 'dia'){
+                diaValidation(count);
+            }
+        }
+
+        function diaValidation(count){
+            if(count.value % 2 != 1){
+                alert("홀수 입력만 가능합니다.");
                 validation_error(count);
                 return false;
             }
