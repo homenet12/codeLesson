@@ -101,10 +101,10 @@
         }
 
         function parallelogramPattern(count){
-            let fixIdx = 3;
-            let paraIdx = Number(count.value) + 3;
+            let fixIdx = count.value;
+            let paraIdx = Number(count.value) *2;
             let countLength = paraIdx;
-            for(i=0; i < 3; i++){
+            for(i=0; i < count.value; i++){
                 for(j=1; j<=paraIdx; j++){
                     if(j < fixIdx){
                         insertSpace(contents);                        
