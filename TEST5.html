@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .space{
+            width:7px;
+            height:21px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <span class="minus">
+        ◥ 패턴  
+        <input type="radio" name="pattern" class="pattern" value="minus" checked>
+    </span>
+    <span class="dia">
+        ♦ 패턴 
+        <input type="radio" name="pattern" class="pattern" value="dia">
+    </span> 
+    <span class="plus"> 
+        ◣ 패턴 
+        <input type="radio" name="pattern" class="pattern" value="plus">
+    </span>
+    <br>
+    <span class="parallelogram"> 
+        ▰ 패턴 
+        <input type="radio" name="pattern" class="pattern" value="parallelogram">
+    </span> 
+    <span class="thunder"> 
+         패턴 
+        <input type="radio" name="pattern" class="pattern" value="thunder">
+    </span> 
+
+    <br><br>
+    숫자 : <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
+    <button type="button" id="star">별 찍기!</button>
+    <button type="button" id="back">뒤로 가기!</button>
+    <div id="contents">
+    </div>
+    <script>
+
+        const star = '*';
+        let captureStack = [];
+
+        (function(){
+            let selected = getCookie('selected'); //담았던 값을 쿠키에서 가져옵니다.
+            checkRadio(selected);
+        })()
+
+        const contents = document.querySelector('#contents');
+
+        document.querySelector('#star').addEventListener('click', play);
+        document.querySelector('#back').addEventListener('click', backIdx);
+
+        function backIdx(){
+            let idx = captureStack.length-1;
+            let backData = captureStack[captureStack.length-1];
+            if(typeof backData == 'undefined'){
+                alert("이전 데이터가 없습니다.");
+                return false;
+            }
+            if(confirm("이전으로 돌아가면 데이터가 복구되지 않습니다. 진행하시겠습니까?")){
+                contents.innerHTML = backData;
+                captureStack.pop();
+            }
+        }
+
+        function enterkey() {
+            if (window.event.keyCode == 13) {
+                play();
+            }
+        }
+
+        function play(){
+            if(contents.innerHTML.trim() != ""){
+                captureStack.push(contents.innerHTML);
+            }
+            contents.innerHTML = "";
+            let count = document.querySelector('#count');
+            let radio_selector = document.querySelector('input[name="pattern"]:checked');
+            
+            if(radio_selector == null){
+                alert("라디오 버튼을 선택해주세요.");
+                return false;
+            }
+            setCookie('selected', radio_selector.value, 10);    //선택한 값을 쿠키에 담습니다.
+
+            validation(count, radio_selector.value);
+            switch(radio_selector.value){
+                case "minus": minusPattern(count); break;
+                case "dia": diaPattern(count); break;
+                case "plus": plusPattern(count); break;
+                case "parallelogram": parallelogramPattern(count); break;
+                case "thunder": thunderPattern(count); break;
+            }
+        }
+
+        function parallelogramPattern(count){
+            let fixIdx = 3;
+            let paraIdx = Number(count.value) + 3;
+            let countLength = paraIdx;
+            for(i=0; i < 3; i++){
+                for(j=1; j<=paraIdx; j++){
+                    if(j < fixIdx){
+                        insertSpace(contents);                        
+                    }else if (j < countLength){
+                        insertStar(contents);
+                    }else{
+                        insertSpace(contents); 
+                    }
+                }
+                fixIdx--;
+                countLength--;
+                insertBr(contents);
+            }
+        }
+
+        function thunderPattern(count){
+            let leftIdx = Number(count.value);
+
+            for(i=count.value; i>0; i--){
+                for(j=1; j<=i*2; j++){
+                    if(j > i){
+                        insertStar(contents);
+                    }else{
+                        insertSpace(contents);
+                    }
+                }
+                insertBr(contents);
+            }
+        }
+
+        function minusPattern(count){
+            for(i=0; i<count.value; i++){
+                for(j=0; j<count.value; j++){
+                    if(i<=j){
+                        insertStar(contents);
+                    }else{
+                        insertSpace(contents);
+                    }
+                }
+                insertBr(contents);
+            }
+        }
+
+        function diaPattern(count){
+            
+            let val = count.value;
+            let val_half = val / 2 - 0.5;
+            let flag = 'minus';
+            let state = 0;
+            for(i=0; i<val; i++){
+                for(j=0; j<val; j++){
+                    if(val_half - state> j){
+                        insertSpace(contents);
+                    }else if (val_half + state< j){
+                        insertSpace(contents);
+                    }else{
+                        insertStar(contents);
+                    }
+                    if(j==val-1 && flag == 'minus'){
+                        state++;
+                    }
+                    if(j==val-1 && flag == 'plus'){
+                        state--;
+                    }
+                    if(val_half == state){
+                        flag = 'plus';
+                    }
+                }
+                insertBr(contents);
+            }
+        }
+
+        function plusPattern(count){
+            
+            for(i=1; i<=count.value; i++){
+                for(j=0; j<i; j++){
+                    insertStar(contents);
+                }
+                insertBr(contents);
+            }
+        }
+
+        function validation(count, pattern){
+            let val = count.value;
+            if(val =='' || isNaN(val)){
+                alert("숫자만 입력이 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+            if(val % 1 !== 0 || val.indexOf('.') > -1 ){
+                alert("'자연수' 만 입력이 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+            if(val < 1 || val > 100){
+                alert("1~ 100 사이 숫자만 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+
+            if(pattern == 'dia'){
+                diaValidation(count);
+            }
+        }
+
+        function diaValidation(count){
+            if(count.value % 2 != 1){
+                alert("홀수 입력만 가능합니다.");
+                validation_error(count);
+                return false;
+            }
+        }
+
+        function validation_error(count){
+            count.value = '';
+            count.focus();
+        }
+
+        function setCookie(name, value, exp) {
+            var date = new Date();
+            date.setTime(date.getTime() + exp*24*60*60*1000);
+            document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+        }
+
+        function getCookie(name) {
+            var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            return value? value[2] : null;
+        }
+
+        function insertSpace(contents){
+            let space = document.createElement("span");
+            space.className = "space";
+            contents.append(space);
+        }
+
+        function insertBr(contents){
+            let pTag = document.createElement("p");
+            contents.append(pTag);
+        }
+
+        function insertStar(contents){
+            contents.append(star);
+        }
+
+        document.body.addEventListener('click',function(e){
+            let patternType = e.target.className;
+            checkRadio(patternType);
+        })
+
+        function checkRadio(selected){
+            let radioButton = document.querySelectorAll("input[name=pattern]");
+            for (var i = 0; i < radioButton.length; i++) {
+                if(radioButton[i].value == selected){
+                    radioButton[i].checked = 'checked';
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
