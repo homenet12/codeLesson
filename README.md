@@ -27,3 +27,10 @@ Hello World 찍기
 Pattern 별 찍기
 
 <a href="https://homenet12.github.io/codeLesson/TEST4.html">https://homenet12.github.io/codeLesson/TEST4.html</a>
+
+#5
+
+이전 패턴 기록 및 Pattern 추가
+
+<a href="https://homenet12.github.io/codeLesson/TEST5.html">https://homenet12.github.io/codeLesson/TEST5.html</a>
+
