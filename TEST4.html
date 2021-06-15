@@ -56,7 +56,7 @@
             }
             setCookie('selected', radio_selector.value, 10);    //선택한 값을 쿠키에 담습니다.
 
-            validation(count);
+            validation(count, radio_selector.value);
             switch(radio_selector.value){
                 case "minus": minusPattern(count); break;
                 case "dia": diaPattern(count); break;
