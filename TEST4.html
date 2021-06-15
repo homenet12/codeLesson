@@ -14,11 +14,17 @@
     </style>
 </head>
 <body>
-    ◥ 패턴 <input type="radio" name="pattern" class="pattern" value="minus" checked>
-    ♦ 패턴 <input type="radio" name="pattern" class="pattern" value="dia">
-    ◣ 패턴 <input type="radio" name="pattern" class="pattern" value="basic">
-    <br><br>
+    <span class="minus"> ◥ 패턴  
+        <input type="radio" name="pattern" class="pattern" value="minus" checked>
+    </span>
+    <span class="dia"> ♦ 패턴 
+        <input type="radio" name="pattern" class="pattern" value="dia">
+    </span> 
+    <span class="basic"> ◣ 패턴 
+        <input type="radio" name="pattern" class="pattern" value="basic">
+    </span> 
 
+    <br><br>
     숫자 : <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
     <button type="button" id="button">별 찍기!</button>
     <div id="contents">
@@ -27,12 +33,7 @@
 
         (function(){
             let selected = getCookie('selected'); //담았던 값을 쿠키에서 가져옵니다.
-            let radioButton = document.querySelectorAll("input[name=pattern]");
-            for (var i = 0; i < radioButton.length; i++) {
-                if(radioButton[i] == selected){
-                    radioButton[i].checked = this.checked;
-                }
-            }
+            checkRadio(selected);
         })()
 
         const contents = document.querySelector('#contents');
@@ -173,6 +174,21 @@
             space.className = "space";
             contents.append(space);
         }
+
+        document.body.addEventListener('click',function(e){
+            let patternType = e.target.className;
+            checkRadio(patternType);
+        })
+
+        function checkRadio(selected){
+            let radioButton = document.querySelectorAll("input[name=pattern]");
+            for (var i = 0; i < radioButton.length; i++) {
+                if(radioButton[i].value == selected){
+                    radioButton[i].checked = 'checked';
+                }
+            }
+        }
+
     </script>
 </body>
 </html>
