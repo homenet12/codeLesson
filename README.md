@@ -34,3 +34,14 @@ Pattern 별 찍기
 
 <a href="https://homenet12.github.io/codeLesson/TEST5.html">https://homenet12.github.io/codeLesson/TEST5.html</a>
 
+
+
+
+
+
+# 번외
+
+여자친구 요청
+
+<a href="https://homenet12.github.io/codeLesson/checkList.html">https://homenet12.github.io/codeLesson/checkList.html</a>
+
