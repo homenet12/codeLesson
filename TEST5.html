@@ -10,38 +10,62 @@
             width:7px;
             height:21px;
             display: inline-block;
+            
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .contents{
+            transition: 2s;
+            opacity: 0;
         }
     </style>
 </head>
-<body>
-    <span class="minus">
-        ◥ 패턴  
-        <input type="radio" name="pattern" class="pattern" value="minus" checked>
-    </span>
-    <span class="dia">
-        ♦ 패턴 
-        <input type="radio" name="pattern" class="pattern" value="dia">
-    </span> 
-    <span class="plus"> 
-        ◣ 패턴 
-        <input type="radio" name="pattern" class="pattern" value="plus">
-    </span>
-    <br>
-    <span class="parallelogram"> 
-        ▰ 패턴 
-        <input type="radio" name="pattern" class="pattern" value="parallelogram">
-    </span> 
-    <span class="thunder"> 
-        ⚡ 패턴 
-        <input type="radio" name="pattern" class="pattern" value="thunder">
-    </span> 
+<body style="display: flex;">
+    
+    <div id="main">
+        <div class="button">
+            <button id="start">
+                별찍기 시작하기!
+            </button>
+            <button id="end">
+                별찍기 종료!
+            </button>
+        </div>
+        <div class="contents">
+            <span class="minus">
+                ◥ 패턴  
+                <input type="radio" name="pattern" class="pattern" value="minus" checked>
+            </span>
+            <span class="dia">
+                ♦ 패턴 
+                <input type="radio" name="pattern" class="pattern" value="dia">
+            </span> 
+            <span class="plus"> 
+                ◣ 패턴 
+                <input type="radio" name="pattern" class="pattern" value="plus">
+            </span>
+            <br>
+            <span class="parallelogram"> 
+                ▰ 패턴 
+                <input type="radio" name="pattern" class="pattern" value="parallelogram">
+            </span> 
+            <span class="thunder"> 
+                ⚡ 패턴 
+                <input type="radio" name="pattern" class="pattern" value="thunder">
+            </span> 
 
-    <br><br>
-    숫자 : <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
-    <button type="button" id="star">별 찍기!</button>
-    <button type="button" id="back">뒤로 가기!</button>
-    <div id="contents">
+            <br><br>
+            숫자 : <input type="text" id="count" style="width:30px;" onkeydown="enterkey();">
+            <button type="button" id="star">별 찍기!</button>
+            <button type="button" id="back">뒤로 가기!</button>
+        </div>
+        <div id="stars">
+        </div>
     </div>
+    
     <script>
 
         const star = '*';
@@ -52,7 +76,7 @@
             checkRadio(selected);
         })()
 
-        const contents = document.querySelector('#contents');
+        const contents = document.querySelector('#stars');
 
         document.querySelector('#star').addEventListener('click', play);
         document.querySelector('#back').addEventListener('click', backIdx);
@@ -65,7 +89,7 @@
                 return false;
             }
             if(confirm("이전으로 돌아가면 데이터가 복구되지 않습니다. 진행하시겠습니까?")){
-                contents.innerHTML = backData;
+                stars.innerHTML = backData;
                 captureStack.pop();
             }
         }
@@ -77,10 +101,10 @@
         }
 
         function play(){
-            if(contents.innerHTML.trim() != ""){
-                captureStack.push(contents.innerHTML);
+            if(stars.innerHTML.trim() != ""){
+                captureStack.push(stars.innerHTML);
             }
-            contents.innerHTML = "";
+            stars.innerHTML = "";
             let count = document.querySelector('#count');
             let radio_selector = document.querySelector('input[name="pattern"]:checked');
             
@@ -107,16 +131,16 @@
             for(i=0; i < count.value; i++){
                 for(j=1; j<=paraIdx; j++){
                     if(j < fixIdx){
-                        insertSpace(contents);                        
+                        insertSpace(stars);                        
                     }else if (j < countLength){
-                        insertStar(contents);
+                        insertStar(stars);
                     }else{
-                        insertSpace(contents); 
+                        insertSpace(stars); 
                     }
                 }
                 fixIdx--;
                 countLength--;
-                insertBr(contents);
+                insertBr(stars);
             }
         }
 
@@ -126,12 +150,12 @@
             for(i=count.value; i>0; i--){
                 for(j=1; j<=i*2; j++){
                     if(j > i){
-                        insertStar(contents);
+                        insertStar(stars);
                     }else{
-                        insertSpace(contents);
+                        insertSpace(stars);
                     }
                 }
-                insertBr(contents);
+                insertBr(stars);
             }
         }
 
@@ -139,12 +163,12 @@
             for(i=0; i<count.value; i++){
                 for(j=0; j<count.value; j++){
                     if(i<=j){
-                        insertStar(contents);
+                        insertStar(stars);
                     }else{
-                        insertSpace(contents);
+                        insertSpace(stars);
                     }
                 }
-                insertBr(contents);
+                insertBr(stars);
             }
         }
 
@@ -157,11 +181,11 @@
             for(i=0; i<val; i++){
                 for(j=0; j<val; j++){
                     if(val_half - state> j){
-                        insertSpace(contents);
+                        insertSpace(stars);
                     }else if (val_half + state< j){
-                        insertSpace(contents);
+                        insertSpace(stars);
                     }else{
-                        insertStar(contents);
+                        insertStar(stars);
                     }
                     if(j==val-1 && flag == 'minus'){
                         state++;
@@ -173,7 +197,7 @@
                         flag = 'plus';
                     }
                 }
-                insertBr(contents);
+                insertBr(stars);
             }
         }
 
@@ -181,9 +205,9 @@
             
             for(i=1; i<=count.value; i++){
                 for(j=0; j<i; j++){
-                    insertStar(contents);
+                    insertStar(stars);
                 }
-                insertBr(contents);
+                insertBr(stars);
             }
         }
 
@@ -234,19 +258,19 @@
             return value? value[2] : null;
         }
 
-        function insertSpace(contents){
+        function insertSpace(stars){
             let space = document.createElement("span");
             space.className = "space";
-            contents.append(space);
+            stars.append(space);
         }
 
-        function insertBr(contents){
+        function insertBr(stars){
             let pTag = document.createElement("p");
-            contents.append(pTag);
+            stars.append(pTag);
         }
 
-        function insertStar(contents){
-            contents.append(star);
+        function insertStar(stars){
+            stars.append(star);
         }
 
         document.body.addEventListener('click',function(e){
@@ -262,6 +286,14 @@
                 }
             }
         }
+
+
+        document.querySelector('#start').addEventListener('click',function(){
+            document.querySelector('.contents').style.opacity = 1;
+        })
+        document.querySelector('#end').addEventListener('click',function(){
+            document.querySelector('.contents').style.opacity = 0;
+        })
 
     </script>
 </body>
