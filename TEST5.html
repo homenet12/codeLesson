@@ -18,7 +18,7 @@
             align-items: center;
         }
         .contents{
-            transition: 2s;
+            transition: 1s;
             opacity: 0;
         }
     </style>
@@ -70,6 +70,7 @@
 
         const star = '*';
         let captureStack = [];
+        let isPlaying = false;
 
         (function(){
             let selected = getCookie('selected'); //담았던 값을 쿠키에서 가져옵니다.
@@ -82,6 +83,7 @@
         document.querySelector('#back').addEventListener('click', backIdx);
 
         function backIdx(){
+            playValidation();
             let idx = captureStack.length-1;
             let backData = captureStack[captureStack.length-1];
             if(typeof backData == 'undefined'){
@@ -101,6 +103,7 @@
         }
 
         function play(){
+            playValidation();
             if(stars.innerHTML.trim() != ""){
                 captureStack.push(stars.innerHTML);
             }
@@ -121,6 +124,13 @@
                 case "plus": plusPattern(count); break;
                 case "parallelogram": parallelogramPattern(count); break;
                 case "thunder": thunderPattern(count); break;
+            }
+        }
+
+        function playValidation(){
+            if(!isPlaying){
+                alert("종료된 상태입니다. 시작하기를 눌러주세요.");
+                return false;
             }
         }
 
@@ -289,9 +299,13 @@
 
 
         document.querySelector('#start').addEventListener('click',function(){
+            captureStack = [];
+            stars.innerHTML = "";
+            isPlaying = true;
             document.querySelector('.contents').style.opacity = 1;
         })
         document.querySelector('#end').addEventListener('click',function(){
+            isPlaying = false;
             document.querySelector('.contents').style.opacity = 0;
         })
 
